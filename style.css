@@ -1,0 +1,314 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #1a80db; /* 圖片中的藍色背景 */
+    font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* 側邊欄通用樣式 */
+.sidebar {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.tools-panel { width: 220px; align-items: center; }
+.right-panel { width: 250px; }
+
+/* 工具按鈕網格 */
+.tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.tool-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #e0e0e0;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.tool-btn.active, .tool-btn:hover {
+    background: #1a80db;
+    color: white;
+}
+
+/* ===== 高階調色盤樣式 ===== */
+.custom-color-picker {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.picker-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+#color-block, #color-strip {
+    position: static; 
+    cursor: crosshair;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.preview-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.color-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: black;
+    border: 2px solid #ccc;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+#color-text {
+    font-size: 12px;
+    color: #555;
+    font-family: monospace;
+}
+
+/* ===== 垂直滑桿樣式 ===== */
+.vertical-slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+#size-display {
+    font-weight: bold;
+    color: #1a80db;
+    font-size: 18px;
+}
+/* 讓滑桿變垂直的魔法 */
+input[type="range"][orient="vertical"] {
+    appearance: slider-vertical;
+    width: 8px;
+    height: 120px;
+    cursor: pointer;
+}
+/* 修改或新增這段 CSS */
+.rgb-sliders {
+    display: flex;
+    flex-direction: column; /* 讓 R, G, B 垂直排列 (等同於換行效果) */
+    gap: 5px; /* 滑桿之間的間距 */
+    width: 100%;
+}
+.rgb-sliders label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+.rgb-sliders input[type="range"] {
+    width: 80%; /* 讓滑桿對齊並佔滿右側空間 */
+    cursor: pointer;
+}
+
+/* 畫布區域 */
+.canvas-area {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+}
+.top-bar {
+    background: white;
+    padding: 10px 20px;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: #333;
+}
+#canvas-container {
+    position: relative;
+    background: white;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    /* 設定與 HTML 中 canvas 相同的長寬 */
+    width: 700px; 
+    height: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: crosshair;
+}
+#canvas-bg {
+    position: absolute;
+    width: 100%; height: 100%;
+    background-color: white; /* 下載時的重要白底 */
+    z-index: -1;
+}
+canvas {
+    position: absolute;
+    top: 0; left: 0;
+}
+
+/* ===== 自訂筆刷游標 ===== */
+#custom-cursor {
+    position: absolute;
+    border: 1px solid black;
+    box-shadow: 0 0 0 1px white;
+    border-radius: 50%;
+    pointer-events: none !important; /* 👈 加入 !important 強制穿透 */
+    transform: translate(-50%, -50%);
+    display: none; 
+    z-index: 9999; 
+}
+
+#layer0 { z-index: 0; }
+#layer1 { z-index: 1; }
+
+/* 右側面板細節 */
+.section { margin-bottom: 20px; }
+.action-btn {
+    background: #ff9800;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+.action-btn:hover { background: #e68a00; }
+
+#layer-list {
+    list-style: none;
+    padding: 0;
+}
+.layer-item {
+    background: #f0f0f0;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.layer-item.active {
+    background: #d0e8ff;
+    border-left: 5px solid #1a80db;
+}
+.icon-btn {
+    background: none; border: none; cursor: pointer; font-size: 16px;
+}
+
+/* ===== 文字與圖片工具的 Overlay 編輯樣式 ===== */
+
+/* 通用邊框設定 (文字、圖片編輯框) */
+.overlay-element {
+    position: absolute;
+    outline: none;
+    padding: 0; margin: 0;
+    pointer-events: auto; /* 核心：編輯框本身需要接收滑鼠事件，不能被穿透 */
+    z-index: 999;
+}
+
+/* 文字輸入框專用 */
+.text-input-overlay {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px dashed #1a80db;
+}
+
+/* ===== 圖片臨時編輯模式樣式 ===== */
+.img-edit-overlay {
+    position: absolute;
+    border: 2px dashed #ff9800; /* 用亮色框提醒處於編輯狀態 */
+    cursor: move;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.img-edit-overlay img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none; /* 讓滑鼠事件穿透圖片，由外層 overlay 統一接收拖曳 */
+}
+
+/* 右下角的縮放手柄 */
+.resize-handle {
+    position: absolute;
+    width: 16px; 
+    height: 16px;
+    background: white;
+    border: 2px solid #1a80db;
+    border-radius: 50%;
+    right: -8px; 
+    bottom: -8px;
+    cursor: nwse-resize;
+    z-index: 1001;
+}
+
+/* 確認按鈕 */
+.img-confirm-btn {
+    position: absolute;
+    top: -35px; 
+    right: -2px;
+    background: #4caf50; 
+    color: white;
+    border: none; 
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    white-space: nowrap;
+}
+.img-confirm-btn:hover {
+    background: #45a049;
+}
+
+/* 加入到 style.css 最下方 */
+.resize-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+.resize-controls input[type="number"] {
+    width: 60px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+.resize-controls label {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #555;
+}
