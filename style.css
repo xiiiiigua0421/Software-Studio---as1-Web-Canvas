@@ -312,3 +312,91 @@ canvas {
     gap: 2px;
     color: #555;
 }
+/* ==========================================
+   🎨 自訂主題色彩覆蓋 (置於最底部)
+   ========================================== */
+
+:root {
+    --lavender-blush: #fcefef;
+    --pearl-aqua: #7fd8be;
+    --aquamarine: #a1fcdf;
+    --apricot-cream: #fcd29f;
+    --sandy-brown: #fcab64;
+}
+
+/* 1. 創意背景：染料滴入水中的渲染擴散效果 */
+body {
+    background-color: var(--lavender-blush);
+    background-image: 
+        radial-gradient(circle at 15% 30%, var(--aquamarine) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, #fbc3fe 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, #c8faff 0%, transparent 80%),
+        radial-gradient(circle at 80% 90%, var(--sandy-brown) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+/* 2. 毛玻璃半透明面板：讓美麗的背景透出來 */
+.sidebar, .top-bar {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5); /* 輕微的玻璃邊框 */
+}
+
+/* 微調側邊欄內部的小區塊背景 */
+.custom-color-picker, .vertical-slider {
+    background: rgba(255, 255, 255, 0.5); /* 半透明 */
+    box-shadow: inset 0 2px 5px rgba(127, 216, 190, 0.2);
+}
+
+/* 3. 工具按鈕色彩映射 */
+.tool-btn {
+    background: var(--lavender-blush);
+    color: #666;
+}
+.tool-btn.active, .tool-btn:hover {
+    background: var(--pearl-aqua);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(127, 216, 190, 0.5); /* 珍珠水綠發光 */
+}
+
+/* 4. 系統動作按鈕 (Resize, Refresh, Download) */
+.action-btn {
+    background: var(--sandy-brown);
+    color: white;
+}
+.action-btn:hover {
+    background: var(--apricot-cream);
+    color: #444; /* 變淺色背景時字體改深色 */
+    box-shadow: 0 4px 10px rgba(252, 171, 100, 0.4);
+}
+
+/* 5. 右側圖層面板 */
+.layer-item {
+    background: rgba(255, 255, 255, 0.6);
+}
+.layer-item.active {
+    background: var(--lavender-blush);
+    border-left: 5px solid var(--sandy-brown);
+}
+
+/* 6. 畫布陰影與 UI 細節點綴 */
+#canvas-container {
+    box-shadow: 0 15px 35px rgba(127, 216, 190, 0.25); /* 陰影改為海藍綠色調 */
+}
+
+#size-display {
+    color: var(--sandy-brown);
+}
+
+/* 編輯框邊框顏色更新 */
+.text-input-overlay {
+    border-color: var(--pearl-aqua);
+}
+.img-edit-overlay {
+    border-color: var(--sandy-brown);
+}
+.resize-handle {
+    border-color: var(--pearl-aqua);
+    background: var(--lavender-blush);
+}

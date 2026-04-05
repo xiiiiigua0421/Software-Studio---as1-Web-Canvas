@@ -57,11 +57,11 @@
 
 ### Web page link
 
-    [請在此填入您的 GitHub Pages 或 Vercel 部署連結]
+    https://github.com/xiiiiigua0421/Software-Studio---as1-Web-Canvas
 
 ### Others (Optional)
 
-    此專案挑戰了許多前端圖學與狀態管理的邊界問題，包含跨圖層 Undo/Redo Stack 管理以及自訂事件穿透 (pointer-events: none) 的實作。雖然沒有使用任何第三方 Library，但架構設計上盡力貼近專業繪圖軟體的解耦思維，希望能帶來順暢的操作體驗！
+    架構設計上盡力貼近專業繪圖軟體的解耦思維，希望能帶來順暢的操作體驗！
 
 <style>
 table th{
